@@ -235,6 +235,7 @@ rec {
               submodules = true;
               inherit (parsed) url rev;
               ref = attrs.branch or "master";
+              allRefs = true;
             };
             hash = pkgs.runCommand "hash-of-${attrs.name}" { nativeBuildInputs = [ pkgs.nix ]; } ''
               echo -n "$(nix-hash --type sha256 ${src})" > $out
