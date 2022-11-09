@@ -12,7 +12,7 @@ let
     if spec.builtin or true then
       builtins_fetchTarball { inherit (spec) url sha256; }
     else
-      pkgs.fetchzip { inherit (spec) url sha256; };
+      pkgs.fetchzip { inherit (spec) url sha256; allRefs = true; };
   fetch_git = spec:
     builtins.fetchGit { url = spec.repo; inherit (spec) rev ref; };
   fetch_builtin-tarball = spec:
