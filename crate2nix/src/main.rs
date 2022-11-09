@@ -265,6 +265,14 @@ pub enum SourceAddingCommands {
         #[serde(with = "url_serde")]
         url: url::Url,
 
+        #[structopt(
+            long = "branch",
+            parse(from_str),
+            default_value = "master",
+            help = "The commit branch."
+        )]
+        branch: String,
+
         #[structopt(long = "rev", parse(from_str), help = "The git revision hash.")]
         rev: String,
     },
@@ -319,8 +327,13 @@ impl SourceAddingCommands {
                 let source = crate2nix::sources::crates_io_source(crate_name, crate_version)?;
                 (name, source)
             }
-            SourceAddingCommands::Git { name, url, rev } => {
-                let source = crate2nix::sources::git_io_source(url, rev)?;
+            SourceAddingCommands::Git {
+                name,
+                url,
+                rev,
+                branch,
+            } => {
+                let source = crate2nix::sources::git_io_source(url, rev, branch)?;
                 (name, source)
             }
             SourceAddingCommands::Nix {

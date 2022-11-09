@@ -366,10 +366,15 @@ pub enum ResolvedSource {
 impl From<crate::config::Source> for ResolvedSource {
     fn from(source: crate::config::Source) -> Self {
         match source {
-            crate::config::Source::Git { url, rev, sha256 } => ResolvedSource::Git(GitSource {
+            crate::config::Source::Git {
                 url,
                 rev,
-                r#ref: None,
+                branch,
+                sha256,
+            } => ResolvedSource::Git(GitSource {
+                url,
+                rev,
+                r#ref: Some(branch),
                 sha256: Some(sha256),
             }),
             crate::config::Source::CratesIo {
